@@ -28,7 +28,7 @@ namespace GildedRose
 
 		private static IList<Item> UpdateConjured(IList<Item> items)
 		{
-			items.Where(item => item.Name == customItems[3]).ToList().ForEach(item =>
+			items.Where(item => item.Name.Contains(customItems[3])).ToList().ForEach(item =>
 			{
 				item.SellIn--;
 
@@ -43,7 +43,8 @@ namespace GildedRose
 
 		private static IList<Item> UpdateOther(IList<Item> items)
 		{
-			items.Where(item => !customItems.Contains(item.Name)).ToList().ForEach(item =>
+			items.Where(item => !customItems.Contains(item.Name))
+				.Where(item => !item.Name.Contains(customItems[3])).ToList().ForEach(item =>
 			{
 				item.SellIn--;
 				
@@ -96,6 +97,8 @@ namespace GildedRose
 				{
 					item.Quality++;
 				}
+
+				if (item.Quality > 50) item.Quality = 50;
 			});
 
 			return items;
@@ -106,10 +109,17 @@ namespace GildedRose
 			items.Where(item => item.Name == customItems[0]).ToList().ForEach(item =>
 			{
 				item.SellIn--;
-
+				
 				if (item.Quality < 50)
 				{
-					item.Quality++;
+					if (item.SellIn < 0)
+					{
+						item.Quality += 2;
+					}
+					else
+					{
+						item.Quality++;
+					}
 				}
 			});
 

@@ -20,15 +20,21 @@ namespace GildedRoseTestProject
 		[Fact]
 		public void QualityOfAnItemIsNeverNegative()
 		{
-			var Items = new List<Item> { new Item { Name = "Apple", SellIn = 10, Quality = 10 } };
+			var Items = new List<Item>
+			{
+				new Item { Name = "Apple", SellIn = 10, Quality = 10 },
+				new Item { Name = "Conjured Mana Cake", SellIn = 10, Quality = 10 }
+			};
+
 			var app = new GildedRose.GildedRose(Items);
 
-			for (var i = 0; i < 20; i++)
+			for (var i = 0; i < 100; i++)
 			{
 				app.UpdateQuality();
 			}
 
 			Assert.Equal(0, Items[0].Quality);
+			Assert.Equal(0, Items[1].Quality);
 		}
 
 		[Fact]
@@ -44,6 +50,21 @@ namespace GildedRoseTestProject
 
 			Assert.Equal(0, Items[0].SellIn);
 			Assert.Equal(20, Items[0].Quality);
+		}
+
+		[Fact]
+		public void QualityOfAgedBrieIncreasesBy2AfterSellInDatePasses()
+		{
+			var Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 10, Quality = 10 } };
+			var app = new GildedRose.GildedRose(Items);
+
+			for (var i = 0; i < 11; i++)
+			{
+				app.UpdateQuality();
+			}
+
+			Assert.Equal(-1, Items[0].SellIn);
+			Assert.Equal(22, Items[0].Quality);
 		}
 
 		[Fact]
@@ -140,6 +161,20 @@ namespace GildedRoseTestProject
 			}
 
 			Assert.Equal(45, Items[0].Quality);
+		}
+
+		[Fact]
+		public void BackstagePassQualityDoesntGoOver50()
+		{
+			var Items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 30, Quality = 10 } };
+			var app = new GildedRose.GildedRose(Items);
+
+			for (var i = 0; i < 30; i++)
+			{
+				app.UpdateQuality();
+			}
+
+			Assert.Equal(50, Items[0].Quality);
 		}
 
 		[Fact]
