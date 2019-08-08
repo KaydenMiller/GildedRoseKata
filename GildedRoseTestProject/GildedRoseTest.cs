@@ -155,5 +155,19 @@ namespace GildedRoseTestProject
 
 			Assert.Equal(0, Items[0].Quality);
 		}
+
+		[Fact]
+		public void ConjuredItemsDegradeInQuality2TimesAsFastAsNormalItems()
+		{
+			var Items = new List<Item> { new Item { Name = "Conjured", SellIn = 10, Quality = 10 } };
+			var app = new GildedRose.GildedRose(Items);
+
+			for (var i = 0; i < 1; i++)
+			{
+				app.UpdateQuality();
+			}
+
+			Assert.Equal(8, Items[0].Quality);
+		}
 	}
 }
