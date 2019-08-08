@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GildedRose
 {
@@ -15,9 +17,13 @@ namespace GildedRose
 
 		public void UpdateQuality()
 		{
-			var updatedItems = QualityControl.UpdateQuality(Items);
+			Parallel.ForEach(Items, (item) =>
+			{
+				
+			});
+			//var updatedItems = QualityControl.UpdateQuality(Items);
 
-			Items = updatedItems;
+			//Items = updatedItems;
 		}
 	}
 }

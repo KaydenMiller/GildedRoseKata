@@ -17,16 +17,16 @@ namespace GildedRose
 
 		public static IList<Item> UpdateQuality(IList<Item> items)
 		{
-			items = UpdateAgedBrie(items);
-			items = UpdateBackstagePass(items);
-			items = UpdateSulfuras(items);
-			items = UpdateConjured(items);
-			items = UpdateOther(items);
+			UpdateAgedBrie(ref items);
+			UpdateBackstagePass(ref items);
+			UpdateSulfuras(ref items);
+			UpdateConjured(ref items);
+			UpdateOther(ref items);
 
 			return items;
 		}
 
-		private static IList<Item> UpdateConjured(IList<Item> items)
+		private static void UpdateConjured(ref IList<Item> items)
 		{
 			items.Where(item => item.Name == customItems[3]).ToList().ForEach(item =>
 			{
@@ -37,11 +37,9 @@ namespace GildedRose
 					item.Quality -= 2;
 				}
 			});
-
-			return items;
 		}
 
-		private static IList<Item> UpdateOther(IList<Item> items)
+		private static void UpdateOther(ref IList<Item> items)
 		{
 			items.Where(item => !customItems.Contains(item.Name)).ToList().ForEach(item =>
 			{
@@ -59,22 +57,18 @@ namespace GildedRose
 					}
 				}
 			});
-
-			return items;
 		}
 
-		private static IList<Item> UpdateSulfuras(IList<Item> items)
+		private static void UpdateSulfuras(ref IList<Item> items)
 		{
 			items.Where(item => item.Name == customItems[2]).ToList().ForEach(item =>
 			{
 				item.SellIn = item.SellIn;
 				item.Quality = 80;
 			});
-
-			return items;
 		}
 
-		private static IList<Item> UpdateBackstagePass(IList<Item> items)
+		private static void UpdateBackstagePass(ref IList<Item> items)
 		{
 			items.Where(item => item.Name == customItems[1]).ToList().ForEach(item =>
 			{
@@ -97,11 +91,9 @@ namespace GildedRose
 					item.Quality++;
 				}
 			});
-
-			return items;
 		}
 
-		private static IList<Item> UpdateAgedBrie(IList<Item> items)
+		private static void UpdateAgedBrie(ref IList<Item> items)
 		{
 			items.Where(item => item.Name == customItems[0]).ToList().ForEach(item =>
 			{
@@ -112,8 +104,6 @@ namespace GildedRose
 					item.Quality++;
 				}
 			});
-
-			return items;
 		}
 	}
 }
