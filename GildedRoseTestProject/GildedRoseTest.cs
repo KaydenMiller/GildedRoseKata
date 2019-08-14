@@ -23,7 +23,9 @@ namespace GildedRoseTestProject
 			var Items = new List<Item>
 			{
 				new Item { Name = "Apple", SellIn = 10, Quality = 10 },
-				new Item { Name = "Conjured Mana Cake", SellIn = 10, Quality = 10 }
+				new Item { Name = "Conjured Mana Cake", SellIn = 10, Quality = 10 },
+				new Item { Name = "Apple", SellIn = 15, Quality = 13 },
+				new Item { Name = "Conjured Mana Cake", SellIn = 15, Quality = 15 }
 			};
 
 			var app = new GildedRose.GildedRose(Items);
@@ -35,6 +37,8 @@ namespace GildedRoseTestProject
 
 			Assert.Equal(0, Items[0].Quality);
 			Assert.Equal(0, Items[1].Quality);
+			Assert.Equal(0, Items[2].Quality);
+			Assert.Equal(0, Items[3].Quality);
 		}
 
 		[Fact]
@@ -70,7 +74,9 @@ namespace GildedRoseTestProject
 		[Fact]
 		public void QualityOfAnItemIsNeverGreaterThan50()
 		{
-			var Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 50, Quality = 10 } };
+			var Items = new List<Item> {
+				new Item { Name = "Aged Brie", SellIn = 50, Quality = 10 }
+			};
 			var app = new GildedRose.GildedRose(Items);
 
 			for (var i = 0; i < 100; i++)
@@ -194,7 +200,10 @@ namespace GildedRoseTestProject
 		[Fact]
 		public void ConjuredItemsDegradeInQuality2TimesAsFastAsNormalItems()
 		{
-			var Items = new List<Item> { new Item { Name = "Conjured", SellIn = 10, Quality = 10 } };
+			var Items = new List<Item> {
+				new Item { Name = "Conjured", SellIn = 10, Quality = 10 },
+				new Item { Name = "Conjured, Mana Cake", SellIn = 25, Quality = 25 }
+			};
 			var app = new GildedRose.GildedRose(Items);
 
 			for (var i = 0; i < 1; i++)
@@ -203,6 +212,7 @@ namespace GildedRoseTestProject
 			}
 
 			Assert.Equal(8, Items[0].Quality);
+			Assert.Equal(23, Items[1].Quality);
 		}
 	}
 }

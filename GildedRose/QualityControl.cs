@@ -11,7 +11,10 @@ namespace GildedRose
 		{
 			"Aged Brie",
 			"Backstage passes to a TAFKAL80ETC concert",
-			"Sulfuras, Hand of Ragnaros",
+			"Sulfuras, Hand of Ragnaros"
+		};
+		private static string[] customItemTypes =
+		{
 			"Conjured"
 		};
 
@@ -28,14 +31,28 @@ namespace GildedRose
 
 		private static IList<Item> UpdateConjured(IList<Item> items)
 		{
-			items.Where(item => item.Name.Contains(customItems[3])).ToList().ForEach(item =>
+			items.Where(item => item.Name.Contains(customItemTypes[0])).ToList().ForEach(item =>
 			{
 				item.SellIn--;
 
 				if (item.Quality > 0)
 				{
-					item.Quality -= 2;
+					if (item.SellIn < 0)
+					{
+						if (item.Quality >= 4)
+							item.Quality -= 4;
+						else
+							item.Quality = 0;
+					}
+					else
+					{
+						if (item.Quality >= 2)
+							item.Quality -= 2;
+						else
+							item.Quality = 0;
+					}
 				}
+
 			});
 
 			return items;
@@ -44,13 +61,13 @@ namespace GildedRose
 		private static IList<Item> UpdateOther(IList<Item> items)
 		{
 			items.Where(item => !customItems.Contains(item.Name))
-				.Where(item => !item.Name.Contains(customItems[3])).ToList().ForEach(item =>
+				.Where(item => !item.Name.Contains(customItemTypes[0])).ToList().ForEach(item =>
 			{
 				item.SellIn--;
 				
 				if (item.Quality > 0)
 				{
-					if (item.SellIn < 0)
+					if (item.SellIn < 0 && item.Quality >= 2)
 					{
 						item.Quality -= 2;
 					}
